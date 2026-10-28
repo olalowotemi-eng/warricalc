@@ -1,0 +1,9 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Age Calculator</title>
+<meta name="monetag" content="edb2a6fa12ef64fbd8b8e017ebdac663">
+<style>body{font-family:Arial;background:#f1f5f9;padding:15px}.card{background:#fff;padding:16px;border-radius:12px;max-width:600px;margin:auto}input{width:100%;padding:11px;margin:6px 0;border-radius:8px;border:1px solid #ccc}.btn{background:#22c55e;color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-weight:bold}.result{background:#f0fdf4;border:2px solid #22c55e;padding:12px;margin-top:12px;text-align:center;font-weight:bold;border-radius:10px}</style>
+</head><body><div class="card">
+<h2>🎂 Age Calculator</h2><a href="index.html">← Home</a>
+<input type="date" id="dob"><button class="btn" onclick="calc()">Calculate Age</button><div id="res"></div>
+</div><script>function calc(){let d=new Date(dob.value);let diff=Date.now()-d.getTime();let nd=new Date(diff);let y=Math.abs(nd.getUTCFullYear()-1970);res.innerHTML='<div class="result">You are '+y+' years old</div>';}</script></body></html>

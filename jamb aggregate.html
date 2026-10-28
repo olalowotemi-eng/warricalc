@@ -1,0 +1,165 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JAMB Aggregate Calculator For ALL Schools Nigeria 2025/2026 - WarriCalc</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5852766790357034" crossorigin="anonymous"></script>
+<script src="https://quge5.com/88/tag.min.js" data-zone="293185" async></script>
+<style>
+body{font-family:Arial;background:#f1f5f9;padding:12px;margin:0}
+.card{background:#fff;padding:16px;border-radius:14px;max-width:680px;margin:auto;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+input,select{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:8px;box-sizing:border-box;font-size:15px}
+.btn{background:#0f172a;color:#fff;padding:14px;border:none;border-radius:10px;width:100%;font-weight:bold;font-size:16px;margin-top:10px}
+.result{background:#f0fdf4;border:2px solid #22c55e;padding:14px;margin-top:14px;text-align:center;font-weight:bold;border-radius:10px;line-height:1.7}
+.small{font-size:12px;color:#64748b}
+.subject-row{display:flex;gap:6px;margin:4px 0}
+.subject-row select{flex:1}
+.subj{flex:2.2}
+.grade{flex:0.9}
+.toggle{display:flex;gap:8px;margin:10px 0}
+.toggle button{flex:1;padding:10px;border-radius:20px;border:2px solid #0f172a;background:#fff;color:#0f172a;font-weight:bold}
+.toggle button.active{background:#0f172a;color:#fff}
+.sittingBox{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px;margin:8px 0}
+.best-box{background:#eff6ff;border:1px dashed #3b82f6;padding:10px;border-radius:8px;margin-top:10px}
+.tag{display:inline-block;background:#0f172a;color:#fff;padding:4px 9px;border-radius:15px;font-size:12px;margin:3px}
+</style>
+</head><body><div class="card">
+<h2>🎓 110 SCHOOLS - ALL NIGERIA</h2>
+<a href="index.html">← Back to Home</a>
+<p class="small">Federal + State + Private Universities | WarriCalc</p>
+
+<label>Choose School Formula (110 Schools):</label>
+<select id="school" onchange="changeFormula()">
+<option value="futa">FUTA / FUPRE / PTI / UNIBEN / DELSU (JAMB/8 + O'Level/50)</option>
+<option value="unilag">UNILAG (JAMB/8 + O'Level/50 + Olevel Bonus)</option>
+<option value="unilorin">UNILORIN / OAU / LASU (JAMB/8 + O'Level/50)</option>
+<option value="custom">ANY OTHER - Custom 50/50</option>
+</select>
+
+<label>Choose Department/Course:</label>
+<select id="dept">
+<option value="">-- Choose Department --</option>
+<option value="engineering">Engineering</option>
+<option value="medicine">Medicine / Pharmacy / Nursing</option>
+<option value="science">Science</option>
+<option value="social">Social Science / Management</option>
+<option value="art">Art / Law</option>
+<option value="education">Education / Agric</option>
+</select>
+
+<input type="number" id="jamb" placeholder="JAMB Score (0-400)" oninput="calcPreview()">
+
+<h3 style="margin:12px 0 5px">O-LEVEL (10 Subjects) - Best Grade System</h3>
+<div class="toggle">
+<button id="btn1" class="active" onclick="setSitting(1)">1 Sitting</button>
+<button id="btn2" onclick="setSitting(2)">2 Sittings - Use Highest Grade</button>
+</div>
+
+<div class="sittingBox" id="box1">
+<label><b>Setting 1 - Exam Type:</b></label>
+<select id="exam1"><option>WAEC</option><option>NECO</option><option>NABTEB</option><option>GCE</option></select>
+<div id="subjects1"></div>
+</div>
+
+<div class="sittingBox" id="box2" style="display:none">
+<label><b>Setting 2 - Exam Type:</b></label>
+<select id="exam2"><option>NECO</option><option>WAEC</option><option>NABTEB</option><option>GCE</option></select>
+<div id="subjects2"></div>
+</div>
+
+<div id="olevelBox" style="display:none">
+<label>UNILAG O'Level Bonus:</label>
+<select id="olevel"><option value="0">0 - No A1 bonus</option><option value="4">4 A1 = 4 marks</option><option value="8">All A1 = 8 marks</option></select>
+</div>
+
+<div class="best-box" id="preview">
+<b>Selected Relevant Subjects (Auto - Highest Grade):</b>
+<div id="bestTags"></div>
+<div id="scoreInfo" class="small" style="margin-top:6px">Enter subjects to see best grades</div>
+</div>
+
+<button class="btn" onclick="calc()">Calculate Aggregate - 110 Schools</button>
+<div id="res"></div>
+<p class="small">Contact: 07081483493 | WarriCalc</p>
+</div>
+<script>
+const subjectsList = ["English Language","Mathematics","Physics","Chemistry","Biology","Further Mathematics","Economics","Government","Literature in English","Geography","Commerce","Financial Accounting","Agricultural Science","Civic Education","CRS/IRS","Yoruba/Igbo/Hausa","Marketing","Computer Studies"];
+const grades = ["-","A1","B2","B3","C4","C5","C6","D7","E8","F9"];
+const gradePoints = {"A1":10,"B2":9,"B3":8,"C4":7,"C5":6,"C6":5,"D7":4,"E8":3,"F9":0,"-":0};
+const courseMap = {
+ engineering: ["Mathematics","English Language","Physics","Chemistry","Further Mathematics","Biology"],
+ medicine: ["English Language","Mathematics","Physics","Chemistry","Biology"],
+ science: ["English Language","Mathematics","Physics","Chemistry","Biology"],
+ social: ["English Language","Mathematics","Economics","Government","Commerce","Financial Accounting"],
+ art: ["English Language","Literature in English","Government","CRS/IRS","Economics","Yoruba/Igbo/Hausa"],
+ education: ["English Language","Mathematics","Biology","Chemistry","Physics","Economics"]
+};
+function createSubjects(containerId){
+ let cont=document.getElementById(containerId);
+ let html="";
+ for(let i=0;i<10;i++){
+  html+=`<div class="subject-row"><select class="subj" onchange="calcPreview()"><option value="">Subject ${i+1}</option>${subjectsList.map(s=>`<option>${s}</option>`).join('')}</select><select class="grade" onchange="calcPreview()">${grades.map(g=>`<option>${g}</option>`).join('')}</select></div>`;
+ }
+ cont.innerHTML+=html;
+}
+createSubjects("subjects1");createSubjects("subjects2");
+function setSitting(n){
+ document.getElementById("btn1").className=n==1?"active":"";
+ document.getElementById("btn2").className=n==2?"active":"";
+ document.getElementById("box2").style.display=n==2?"block":"none";
+ calcPreview();
+}
+function changeFormula(){
+ let s=document.getElementById('school').value;
+ document.getElementById('olevelBox').style.display=s=='unilag'?'block':'none';
+ calcPreview();
+}
+function getBestGrades(){
+ let best={};
+ function readBox(boxId){
+  document.querySelectorAll("#"+boxId+" .subject-row").forEach(row=>{
+   let sub=row.children[0].value; let gr=row.children[1].value;
+   if(!sub||gr=="-"||gr=="" ) return;
+   if(!best[sub] || gradePoints[gr] > gradePoints[best[sub]]) best[sub]=gr;
+  });
+ }
+ readBox("subjects1");
+ if(document.getElementById("box2").style.display!="none") readBox("subjects2");
+ return best;
+}
+function filterRelevant(best){
+ let dept=document.getElementById("dept").value;
+ if(!dept) return {filtered:best};
+ let needed = courseMap[dept] || [];
+ let filtered={};
+ needed.forEach(n=>{ if(best[n]) filtered[n]=best[n]; });
+ if(Object.keys(filtered).length<5){
+  let sorted = Object.entries(best).sort((a,b)=>gradePoints[b[1]]-gradePoints[a[1]]);
+  for(let [sub,gr] of sorted){ if(Object.keys(filtered).length>=5) break; if(!filtered[sub]) filtered[sub]=gr; }
+ }
+ let entries = Object.entries(filtered).sort((a,b)=>gradePoints[b[1]]-gradePoints[a[1]]).slice(0,5);
+ let final={}; entries.forEach(([k,v])=>final[k]=v);
+ return {filtered:final};
+}
+function calcPreview(){
+ let best=getBestGrades();
+ let {filtered} = filterRelevant(best);
+ let html=""; let total=0;
+ for(let sub in filtered){ html+=`<span class="tag">${sub}: ${filtered[sub]}</span>`; total+=gradePoints[filtered[sub]]; }
+ if(html=="") html='<span class="small">No subjects selected yet</span>';
+ document.getElementById("bestTags").innerHTML=html;
+ document.getElementById("scoreInfo").innerHTML=`5 Core Subjects Auto-Picked • O-Level Score: ${total}/50 (Highest grade per subject)`;
+ return {filtered,total,best};
+}
+function calc(){
+ let jamb=parseInt(document.getElementById("jamb").value)||0;
+ if(jamb<1){ alert("Enter JAMB score"); return; }
+ let {filtered,total} = calcPreview();
+ if(Object.keys(filtered).length<5){ alert("Select at least 5 subjects with grades"); return; }
+ let school=document.getElementById("school").value;
+ let olBonus=parseInt(document.getElementById("olevel").value)||0;
+ let agg = (jamb/8) + total + olBonus;
+ if(agg>100) agg=100;
+ let msg=''; if(agg>=70) msg='🔥 Excellent!'; else if(agg>=60) msg='✅ Very Good'; else if(agg>=50) msg='⚠️ Manageable'; else msg='❌ Low';
+ let list = Object.entries(filtered).map(([s,g])=>`${s}(${g})`).join(', ');
+ document.getElementById('res').innerHTML=`<div class="result">${agg.toFixed(2)}%<br>${msg}<br><small class="small">JAMB: ${jamb} = ${(jamb/8).toFixed(1)} | O-Level: ${total}/50<br>Relevant: ${list}<br>Used HIGHEST across ${document.getElementById('box2').style.display!='none'?'2 settings':'1 setting'}</small></div>`;
+}
+</script></body></html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Usage Calculator MTN Airtel Glo 9mobile Nigeria</title>
+<meta name="monetag" content="edb2a6fa12ef64fbd8b8e017ebdac663">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5852766790357034" crossorigin="anonymous"></script>
+<script src="https://quge5.com/88/tag.min.js" data-zone="293185" async></script>
+<style>body{font-family:Arial;background:#0f172a;padding:15px;color:#fff}.card{background:#1e293b;padding:18px;border-radius:14px;max-width:600px;margin:auto}input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;font-size:16px}.btn{background:#22c55e;color:#fff;padding:14px;border:none;border-radius:10px;width:100%;font-weight:bold;font-size:17px}.result{background:#052e16;border:2px solid #22c55e;padding:14px;margin-top:14px;text-align:center;font-weight:bold;border-radius:12px;line-height:1.7}a{color:#7dd3fc;text-decoration:none}.priceBox{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}</style>
+</head><body><div class="card">
+<h2>📱 Data Usage Calculator</h2><a href="index.html">← Home</a>
+
+<label>What you dey watch?</label>
+<select id="app">
+<option value="0.3">WhatsApp Call (0.3GB/hour)</option>
+<option value="0.5">WhatsApp Video (0.5GB/hour)</option>
+<option value="1" selected>TikTok (1GB/hour)</option>
+<option value="0.7">Facebook / Instagram (0.7GB/hour)</option>
+<option value="1.2">YouTube (1.2GB/hour)</option>
+<option value="1.5">Netflix HD (1.5GB/hour)</option>
+<option value="2.5">Netflix 4K (2.5GB/hour)</option>
+<option value="0.8">Zoom Class (0.8GB/hour)</option>
+</select>
+
+<label>How many hours?</label>
+<input type="number" id="hrs" placeholder="e.g 28" value="28">
+
+<label>Choose your network:</label>
+<select id="network">
+<option value="300|MTN">MTN - 1GB = N300</option>
+<option value="300|Airtel">Airtel - 1GB = N300</option>
+<option value="270|Glo">Glo - 1GB = N270 (Cheapest)</option>
+<option value="350|9mobile">9mobile - 1GB = N350</option>
+</select>
+
+<button class="btn" onclick="calc()">Check Data Needed</button>
+<div id="res"></div>
+
+<div style="margin-top:12px;font-size:13px;color:#94a3b8">
+💡 Tip: Glo dey cheapest for Warri, MTN dey fastest.
+</div>
+<p style="font-size:12px">Contact: 07081483493 | WarriCalc</p>
+</div>
+<script>
+function calc(){
+let appGB=parseFloat(document.getElementById('app').value);
+let hrs=parseFloat(document.getElementById('hrs').value)||0;
+let net=document.getElementById('network').value.split('|');
+let price=parseFloat(net[0]);
+let netName=net[1];
+
+let totalGB=(appGB*hrs);
+let cost=totalGB*price;
+
+// All networks price
+let mtnCost=totalGB*300;
+let airtelCost=totalGB*300;
+let gloCost=totalGB*270;
+let etisalatCost=totalGB*350;
+
+document.getElementById('res').innerHTML=
+'<div class="result">You need: '+totalGB.toFixed(2)+'GB<br>'+netName+' cost = N'+cost.toFixed(0)+
+'<div class="priceBox">'+
+'<div style="background:#0f172a;padding:8px;border-radius:8px">MTN<br>N'+mtnCost.toFixed(0)+'</div>'+
+'<div style="background:#0f172a;padding:8px;border-radius:8px">Airtel<br>N'+airtelCost.toFixed(0)+'</div>'+
+'<div style="background:#0f172a;padding:8px;border-radius:8px">Glo<br>N'+gloCost.toFixed(0)+'</div>'+
+'<div style="background:#0f172a;padding:8px;border-radius:8px">9mobile<br>N'+etisalatCost.toFixed(0)+'</div>'+
+'</div>'+
+'<div style="margin-top:8px;font-size:13px">Advice: If na Glo, you go save N'+(mtnCost-gloCost).toFixed(0)+'</div></div>';
+}
+calc();
+</script></body></html>

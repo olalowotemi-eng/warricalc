@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:#0f172a; color:white; font-family:sans-serif; padding:15px;}
+.card{background:#1e293b; border:1px solid #22c55e; border-radius:12px; padding:20px; margin-top:15px;}
+input, select{width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #22c55e; background:#0f172a; color:white; box-sizing:border-box;}
+button{background:#22c55e; color:black; padding:12px; width:100%; border:none; border-radius:8px; font-weight:bold; margin-top:10px; cursor:pointer;}
+.result{background:#0f172a; border-left:4px solid #22c55e; padding:15px; margin-top:15px; border-radius:8px; display:none; white-space:pre-wrap; line-height:1.6;}
+small{color:#94a3b8;}
+</style>
+</head>
+<body>
+
+<h2>📄 NIN Affidavit Age Calculator</h2>
+<small>Check if you need affidavit for NIN age correction</small>
+
+<div class="card">
+<label>NIN Date of Birth (As e dey for NIN slip):</label>
+<input type="date" id="ninDob">
+
+<label>Document DOB (WAEC / JAMB / Birth Cert):</label>
+<input type="date" id="docDob">
+
+<label>Reason for Affidavit:</label>
+<select id="reason">
+<option>Age Declaration</option>
+<option>Correction of Name & Age</option>
+<option>JAMB / School Requirement</option>
+<option>NIN Modification</option>
+</select>
+
+<button onclick="calculateAffidavit()">Calculate Affidavit Age</button>
+
+<div id="output" class="result"></div>
+
+<button id="printBtn" style="display:none; background:white; margin-top:10px;" onclick="window.print()">Print Affidavit Text</button>
+</div>
+
+<script>
+function calculateAffidavit(){
+ let nin = new Date(document.getElementById('ninDob').value);
+ let doc = new Date(document.getElementById('docDob').value);
+ let reason = document.getElementById('reason').value;
+ 
+ if(!nin || !doc || isNaN(nin) || isNaN(doc)){ alert("Abeg put the two dates"); return; }
+
+ let diffTime = Math.abs(doc - nin);
+ let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+ let diffYears = Math.floor(diffDays / 365);
+
+ let today = new Date();
+ let ageNIN = today.getFullYear() - nin.getFullYear();
+ let ageDOC = today.getFullYear() - doc.getFullYear();
+
+ let affidavitNeeded = diffDays > 0 ? "YES - You Need Affidavit" : "NO - Dates Match";
+ 
+ let text = `RESULT:
+
+NIN DOB: ${nin.toDateString()}
+Document DOB: ${doc.toDateString()}
+Difference: ${diffDays} days (~${diffYears} year(s))
+Current Age (NIN): ${ageNIN} years
+Current Age (Doc): ${ageDOC} years
+Affidavit Needed: ${affidavitNeeded}
+
+SAMPLE AFFIDAVIT TEXT FOR COURT:
+
+AFFIDAVIT OF DECLARATION OF AGE
+
+I, [YOUR FULL NAME], Adult, Nigerian, of [YOUR ADDRESS], do hereby make oath and state as follows:
+
+1. That my correct Date of Birth is ${doc.toDateString()} as contained in my ${reason}.
+2. That my NIN bears ${nin.toDateString()} which was captured in error.
+3. That my correct age is ${ageDOC} years.
+4. That this affidavit is required for ${reason} and for record purposes.
+5. That I swear to this affidavit in good faith.
+
+DEPONENT
+
+Sworn at High Court Registry, Warri / Asaba...
+
+COST ESTIMATE: N2,000 - N5,000 for court affidavit.
+Go with: NIN Slip + Birth Cert / WAEC + 2 Passport Photos.
+`;
+
+ document.getElementById('output').style.display = 'block';
+ document.getElementById('output').innerText = text;
+ document.getElementById('printBtn').style.display = 'block';
+}
+</script>
+</body>
+</html>

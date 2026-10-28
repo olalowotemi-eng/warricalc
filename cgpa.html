@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CGPA Calculator 5.0 Nigeria</title>
+<meta name="monetag" content="edb2a6fa12ef64fbd8b8e017ebdac663">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5852766790357034" crossorigin="anonymous"></script>
+<script src="https://quge5.com/88/tag.min.js" data-zone="293185" async></script>
+<style>body{font-family:Arial;background:#f1f5f9;padding:15px}.card{background:#fff;padding:16px;border-radius:12px;max-width:600px;margin:auto}input,select{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:8px}.btn{background:#22c55e;color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-weight:bold;margin-top:8px}.result{background:#f0fdf4;border:2px solid #22c55e;padding:12px;margin-top:12px;text-align:center;font-weight:bold;border-radius:10px}</style>
+</head><body><div class="card">
+<h2>📚 CGPA Calculator</h2><a href="index.html">← Home</a>
+<div id="rows"><div style="display:flex;gap:6px"><input class="cn" placeholder="Course" style="flex:2"><select class="cu" style="flex:1"><option value="3" selected>3 units</option><option value="2">2</option><option value="4">4</option></select><select class="cg" style="flex:1"><option value="5">A</option><option value="4">B</option><option value="3" selected>C</option></select></div></div>
+<button class="btn" style="background:#e2e8f0;color:#000" onclick="add()">+ Add Course</button>
+<button class="btn" onclick="calc()">Calculate CGPA</button><div id="res"></div>
+</div><script>function add(){let d=document.createElement('div');d.style.display='flex';d.style.gap='6px';d.innerHTML='<input class="cn" placeholder="Course" style="flex:2"><select class="cu" style="flex:1"><option value="3" selected>3</option><option value="2">2</option></select><select class="cg" style="flex:1"><option value="5">A</option><option value="3" selected>C</option></select>';rows.appendChild(d);}function calc(){let us=document.querySelectorAll('.cu'),gs=document.querySelectorAll('.cg'),tp=0,tu=0;for(let i=0;i<us.length;i++){tu+=+us[i].value;tp+=+us[i].value*+gs[i].value;}let g=(tp/tu).toFixed(2);let c=g>=4.5?'First Class':g>=3.5?'Second Upper':g>=2.4?'Second Lower':'Pass';res.innerHTML='<div class="result">CGPA: '+g+'/5.0<br>'+c+'</div>';}</script></body></html>

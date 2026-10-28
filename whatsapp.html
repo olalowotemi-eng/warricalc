@@ -1,0 +1,10 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WhatsApp Link Generator</title>
+<meta name="monetag" content="edb2a6fa12ef64fbd8b8e017ebdac663">
+<style>body{font-family:Arial;background:#f1f5f9;padding:15px}.card{background:#fff;padding:16px;border-radius:12px;max-width:600px;margin:auto}input{width:100%;padding:11px;margin:6px 0;border-radius:8px;border:1px solid #ccc}.btn{background:#22c55e;color:#fff;padding:12px;border:none;border-radius:8px;width:100%;font-weight:bold}.result{background:#f0fdf4;border:2px solid #22c55e;padding:12px;margin-top:12px;text-align:center;font-weight:bold;border-radius:10px;word-break:break-all}</style>
+</head><body><div class="card">
+<h2>💬 WhatsApp Link Generator</h2><a href="index.html">← Home</a>
+<input id="num" value="07081483493" placeholder="07081483493"><input id="msg" placeholder="Message e.g. Hello">
+<button class="btn" onclick="gen()">Generate Link</button><div id="res"></div>
+</div><script>function gen(){let n=num.value.replace(/\D/g,'');if(n.startsWith('0')) n='234'+n.slice(1);let m=encodeURIComponent(msg.value||'Hello');let link='https://wa.me/'+n+'?text='+m;res.innerHTML='<div class="result"><a href="'+link+'" target="_blank">'+link+'</a><br><br><button class="btn" onclick="navigator.clipboard.writeText(\''+link+'\')">Copy</button></div>';}</script></body></html>
